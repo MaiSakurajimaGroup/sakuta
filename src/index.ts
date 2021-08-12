@@ -1,35 +1,21 @@
-export type Arguments<T> = [T] extends [(...args: infer U) => any]
-	? U
-	: [T] extends [void]
-	? never[]
-	: [T];
+type Listener<P> = (event: SakutaEvent<P>) => unknown;
 
-interface TypedEventEmitter<Events> {
-	on<E extends keyof Events>(event: E, listener: Events[E]): this;
-	once<E extends keyof Events>(event: E, listener: Events[E]): this;
-	off<E extends keyof Events>(event: E, listener: Events[E]): this;
-	removeAll<E extends keyof Events>(event?: E): this;
-	emit<E extends keyof Events>(event: E, ...args: Arguments<Events[E]>): boolean;
+export class Sakuta<Payloads extends Record<string, unknown>> {
+	private readonly listeners: Array<Listener<keyof Payloads, Payloads[keyof Payloads]>> = [];
+
+	on(key: Key) {
+		//
+	}
 }
 
-export class Sakuta<Events> implements TypedEventEmitter<Events> {
-	on<E extends keyof Events>(event: E, listener: Events[E]): this {
-		throw new Error('Method not implemented.');
-	}
+class SakutaEvent<P> {
+	public readonly instance: Sakuta<P>;
+	public readonly key: string;
+	public readonly data: T;
 
-	once<E extends keyof Events>(event: E, listener: Events[E]): this {
-		throw new Error('Method not implemented.');
-	}
-
-	off<E extends keyof Events>(event: E, listener: Events[E]): this {
-		throw new Error('Method not implemented.');
-	}
-
-	removeAll<E extends keyof Events>(event?: E): this {
-		throw new Error('Method not implemented.');
-	}
-
-	emit<E extends keyof Events>(event: E, ...args: Arguments<Events[E]>): boolean {
-		throw new Error('Method not implemented.');
+	constructor(instance: Sakuta<P>, key: string, data: T) {
+		this.instance = instance;
+		this.key = key;
+		this.data = data;
 	}
 }
