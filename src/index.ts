@@ -13,6 +13,18 @@ export class Sakuta<Payloads extends Record<string, unknown>> {
 		const existing = this.listeners.get(key) ?? [];
 		this.listeners.set(key, [...existing, listener]);
 	}
+
+	public emit<K extends keyof Payloads>(key: K, data: Payloads[K]) {
+		const listeners = this.listeners.get(key);
+
+		if (!listeners) {
+			return;
+		}
+
+		for (const listener of listeners) {
+			listener(new SakutaEvent(this, key, data));
+		}
+	}
 }
 
 class SakutaEvent<P extends Record<string, unknown>, K extends keyof P> {
