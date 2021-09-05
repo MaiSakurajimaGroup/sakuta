@@ -1,11 +1,17 @@
 type Listener<P extends Record<string, unknown>, Key extends keyof P> = (
 	event: SakutaEvent<P, Key>
 ) => unknown;
-export class Sakuta<Payloads extends Record<string, unknown>> {
-	private readonly listeners: Array<Listener<Payloads, keyof Payloads>> = [];
 
-	on(key: keyof Payloads) {
-		console.log(key);
+export class Sakuta<Payloads extends Record<string, unknown>> {
+	private readonly listeners: Map<keyof Payloads, Array<Listener<Payloads, keyof Payloads>>>;
+
+	public constructor() {
+		this.listeners = new Map();
+	}
+
+	public on<K extends keyof Payloads>(key: K, listener: Listener<Payloads, K>) {
+		const existing = this.listeners.get(key) ?? [];
+		this.listeners.set(key, [...existing, listener]);
 	}
 }
 
