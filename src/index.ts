@@ -15,6 +15,28 @@ export class Sakuta<Payloads extends Record<string, unknown>> {
 		this.listeners.set(key, merged);
 	}
 
+	public off<K extends keyof Payloads>(key: K, listener: Listener<Payloads, K>) {
+		const list = this.listeners.get(key);
+
+		if (!list) {
+			// eslint-disable-next-line @typescript-eslint/quotes
+			throw new Error("Cannot remove listener for key that doesn't exist.");
+		}
+
+		const index = list.indexOf(listener as Listener<Payloads, keyof Payloads>);
+
+		if (index === -1) {
+			return;
+		}
+
+		const filtered = list.filter(item => item !== listener);
+
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+		delete list[index];
+
+		this.listeners.set(key, filtered);
+	}
+
 	public emit<K extends keyof Payloads>(key: K, data: Payloads[K]) {
 		const listeners = this.listeners.get(key);
 
