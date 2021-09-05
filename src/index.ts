@@ -30,10 +30,6 @@ export class Sakuta<Payloads extends Record<string, unknown>> {
 		}
 
 		const filtered = list.filter(item => item !== listener);
-
-		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-		delete list[index];
-
 		this.listeners.set(key, filtered);
 	}
 
