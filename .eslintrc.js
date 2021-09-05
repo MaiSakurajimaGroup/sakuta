@@ -19,6 +19,7 @@ module.exports = {
 		'@typescript-eslint/triple-slash-reference': 'off',
 		'import/no-anonymous-default-export': 'off',
 		'@typescript-eslint/indent': 'off',
+		'@typescript-eslint/quotes': 'off',
 	},
 	ignorePatterns: ['**/*.js'],
 };

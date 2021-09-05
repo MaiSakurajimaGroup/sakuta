@@ -19,7 +19,6 @@ export class Sakuta<Payloads extends Record<string, unknown>> {
 		const list = this.listeners.get(key);
 
 		if (!list) {
-			// eslint-disable-next-line @typescript-eslint/quotes
 			throw new Error("Cannot remove listener for key that doesn't exist.");
 		}
 
