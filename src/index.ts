@@ -11,7 +11,8 @@ export class Sakuta<Payloads extends Record<string, unknown>> {
 
 	public on<K extends keyof Payloads>(key: K, listener: Listener<Payloads, K>) {
 		const existing = this.listeners.get(key) ?? [];
-		this.listeners.set(key, [...existing, listener]);
+		const merged = [...existing, listener] as Array<Listener<Payloads, keyof Payloads>>;
+		this.listeners.set(key, merged);
 	}
 
 	public emit<K extends keyof Payloads>(key: K, data: Payloads[K]) {
