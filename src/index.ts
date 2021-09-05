@@ -1,4 +1,6 @@
-type Listener<P> = (event: SakutaEvent<P>) => unknown;
+type Listener<P extends Record<string, unknown>, K extends keyof P> = (
+	event: SakutaEvent<P, K>
+) => unknown;
 
 export class Sakuta<Payloads extends Record<string, unknown>> {
 	private readonly listeners: Array<Listener<keyof Payloads, Payloads[keyof Payloads]>> = [];
